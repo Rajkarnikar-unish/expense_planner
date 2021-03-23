@@ -76,10 +76,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   bool _showChart = false;
 
   @override
-    void initState() {
-      WidgetsBinding.instance.addObserver(this);
-      super.initState();
-    }
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -135,51 +135,53 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   }
 
   List<Widget> _buildLandscapeContent(
-    MediaQueryData mediaQuery,
-    AppBar appBar,
-    Widget txListWidget) {
-    return [Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Show Chart',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        Switch.adaptive(
-          value: _showChart,
-          onChanged: (val) {
-            setState(() {
-              _showChart = val;
-            });
-          },
-        ),
-      ],
-    ), _showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.8,
-                      child: Chart(
-                        _recentTransactions,
-                      ),
-                    )
-                  : txListWidget,];
+      MediaQueryData mediaQuery, AppBar appBar, Widget txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Switch.adaptive(
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          ),
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.8,
+              child: Chart(
+                _recentTransactions,
+              ),
+            )
+          : txListWidget,
+    ];
   }
 
   List<Widget> _buildPotraitContent(
-    MediaQueryData mediaQuery, 
-    AppBar appBar, 
-    Widget txListWidget) {
-    return [Container(
-      height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top) *
-          0.3,
-      child: Chart(
-        _recentTransactions,
+      MediaQueryData mediaQuery, AppBar appBar, Widget txListWidget) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(
+          _recentTransactions,
+        ),
       ),
-    ), txListWidget];
+      txListWidget
+    ];
   }
 
   @override
@@ -230,18 +232,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isLandscape) 
-            ..._buildLandscapeContent(
-              mediaQuery,
-              appBar,
-              txListWidget
-            ),
-            if (!isLandscape) 
-            ..._buildPotraitContent(
-              mediaQuery,
-              appBar,
-              txListWidget,
-            ),
+            if (isLandscape)
+              ..._buildLandscapeContent(mediaQuery, appBar, txListWidget),
+            if (!isLandscape)
+              ..._buildPotraitContent(
+                mediaQuery,
+                appBar,
+                txListWidget,
+              ),
           ],
         ),
       ),
